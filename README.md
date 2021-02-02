@@ -40,3 +40,19 @@ docker-compose exec app rails generate active_admin:resource Income
 docker-compose exec app rails generate active_admin:resource RegularExpense
 docker-compose exec app rails generate active_admin:resource MonthlyExpense
 ```
+
+## Production
+
+Create ECR Repository
+
+```
+aws ecr create-repository --repository-name cashbook-rails
+```
+
+Put parameters to AWS System Manager Parameter Store
+
+```
+aws ssm put-parameter --name "/my/dockerhub_username" --type String --value ${DOCKERHUB_USERNAME}
+aws ssm put-parameter --name "/my/dockerhub_password" --type String --value ${DOCKERHUB_PASSWORD}
+aws ssm put-parameter --name "/cashbook/rails_master_key" --type String --value ${RAILS_MASTER_KEY}
+```

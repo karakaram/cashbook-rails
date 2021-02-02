@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "CodeBuildName",
+    "ParameterValue": "cashbook-rails-cfn"
+  },
+  {
+    "ParameterKey": "ECRRepositoryName",
+    "ParameterValue": "cashbook-rails"
+  },
+  {
+    "ParameterKey": "GitHubRepositoryURL",
+    "ParameterValue": "https://github.com/karakaram/cashbook-rails.git"
+  }
+]

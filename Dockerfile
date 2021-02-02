@@ -1,5 +1,8 @@
 FROM ruby:2.7.2-alpine3.12
 
+ARG RAILS_ENV
+ARG RAILS_MASTER_KEY
+
 WORKDIR /myapp
 
 COPY . .
@@ -14,7 +17,7 @@ RUN apk update \
     yarn \
     && bundle install \
     && yarn install \
-    && rails assets:precompile \
+    && DB_ADAPTER=nulldb rails assets:precompile \
     && apk del .build-deps
 
 COPY entrypoint.sh /usr/bin/
