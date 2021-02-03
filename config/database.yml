@@ -19,7 +19,7 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  database: cashbook_development
   host: <%= ENV['DATABASE_HOST'] %>
 
 # Warning: The database defined as "test" will be erased and
@@ -27,7 +27,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: myapp_test
+  database: cashbook_test
   host: <%= ENV['DATABASE_HOST'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -52,7 +52,6 @@ test:
 #
 production:
   <<: *default
-  database: myapp_production
-  username: myapp
+  database: cashbook
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
   host: <%= ENV['DATABASE_HOST'] %>
