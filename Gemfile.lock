@@ -171,6 +171,7 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
+    okcomputer (1.18.2)
     orm_adapter (0.5.0)
     public_suffix (4.0.6)
     puma (5.1.1)
@@ -294,6 +295,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mysql2 (~> 0.5)
+  okcomputer
   puma (~> 5.0)
   pundit
   rack-mini-profiler (~> 2.0)
