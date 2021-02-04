@@ -19,10 +19,21 @@
     "ParameterKey": "ParentDatabaseStack",
     "ParameterValue": "my-rds-mysql"
   },
-
   {
     "ParameterKey": "SubDomainNameWithDotLoadBalancer",
     "ParameterValue": "cashbook-alb."
+  },
+  {
+    "ParameterKey": "SubDomainNameWithDotCloudFront",
+    "ParameterValue": "cashbook."
+  },
+  {
+    "ParameterKey": "CloudFrontCustomHeaderName",
+    "ParameterValue": "my-cloudfront-key"
+  },
+  {
+    "ParameterKey": "CloudFrontCustomHeaderValue",
+    "ParameterValue": "/my/cloudfront/key"
   },
   {
     "ParameterKey": "AppImage",

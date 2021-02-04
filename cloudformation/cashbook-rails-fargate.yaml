@@ -21,6 +21,15 @@ Parameters:
   SubDomainNameWithDotLoadBalancer:
     Description: 'Name that is used to create the DNS entry with trailing dot, e.g. §{SubDomainNameWithDotLoadBalancer}§{HostedZoneName}. Leave blank for naked (or apex and bare) domain. Requires ParentZoneStack parameter!'
     Type: String
+  SubDomainNameWithDotCloudFront:
+    Description: 'Name that is used to create the DNS entry with trailing dot, e.g. §{SubDomainNameWithDotCloudFront}§{HostedZoneName}. Leave blank for naked (or apex and bare) domain. Requires ParentZoneStack parameter!'
+    Type: String
+  CloudFrontCustomHeaderName:
+    Description: 'The name attached to Header in CloudFront.'
+    Type: String
+  CloudFrontCustomHeaderValue:
+    Description: 'The value attached to Header in CloudFront.'
+    Type: AWS::SSM::Parameter::Value<String>
   LoadBalancerDeregistrationDelay:
     Description: 'The amount time (in seconds) to wait before changing the state of a deregistering target from draining to unused.'
     Type: Number
@@ -112,9 +121,14 @@ Resources:
           HostHeaderConfig:
             Values:
               - !Sub
-                - '${SubDomainNameWithDotLoadBalancer}${HostedZoneName}'
-                - SubDomainNameWithDotLoadBalancer: !Ref SubDomainNameWithDotLoadBalancer
+                - '${SubDomainNameWithDotCloudFront}${HostedZoneName}'
+                - SubDomainNameWithDotCloudFront: !Ref SubDomainNameWithDotCloudFront
                   HostedZoneName: { 'Fn::ImportValue': !Sub '${ParentZoneStack}-HostedZoneName' }
+        - Field: http-header
+          HttpHeaderConfig:
+            HttpHeaderName: !Ref 'CloudFrontCustomHeaderName'
+            Values:
+              - !Ref 'CloudFrontCustomHeaderValue'
       ListenerArn: {'Fn::ImportValue': !Sub '${ParentLoadBalancerStack}-HttpsListener'}
       Priority: 2
   ServiceSecurityGroup:
