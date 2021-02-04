@@ -254,3 +254,13 @@ Outputs:
   StackName:
     Description: 'Stack name.'
     Value: !Sub '${AWS::StackName}'
+  Cluster:
+    Description: 'ECS cluster.'
+    Value: !Ref Cluster
+    Export:
+      Name: !Sub '${AWS::StackName}-Cluster'
+  Service:
+    Description: 'ECS service.'
+    Value: !Ref Service
+    Export:
+      Name: !Sub '${AWS::StackName}-Service'

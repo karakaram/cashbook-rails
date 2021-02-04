@@ -1,0 +1,38 @@
+[
+  {
+    "ParameterKey": "ParentClusterStack",
+    "ParameterValue": "cashbook-rails-fargate"
+  },
+  {
+    "ParameterKey": "CodeBuildName",
+    "ParameterValue": "cashbook-rails"
+  },
+  {
+    "ParameterKey": "ECRRepositoryName",
+    "ParameterValue": "cashbook-rails"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "karakaram"
+  },
+  {
+    "ParameterKey": "GitHubRepositoryName",
+    "ParameterValue": "cashbook-rails"
+  },
+  {
+    "ParameterKey": "GitHubBranchName",
+    "ParameterValue": "main"
+  },
+  {
+    "ParameterKey": "GitHubSecret",
+    "ParameterValue": "/my/github/secret"
+  },
+  {
+    "ParameterKey": "GitHubOAuthToken",
+    "ParameterValue": "/my/github/oauth_token"
+  },
+  {
+    "ParameterKey": "ArtifactStoreBucket",
+    "ParameterValue": "codepipeline-ap-northeast-1-356849978271"
+  }
+]
