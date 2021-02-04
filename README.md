@@ -52,8 +52,8 @@ aws ecr create-repository --repository-name cashbook-rails
 Put parameters to AWS System Manager Parameter Store
 
 ```
-aws ssm put-parameter --name "/my/dockerhub_username" --type String --value ${DOCKERHUB_USERNAME}
-aws ssm put-parameter --name "/my/dockerhub_password" --type String --value ${DOCKERHUB_PASSWORD}
+aws ssm put-parameter --name "/my/dockerhub/username" --type String --value ${DOCKERHUB_USERNAME}
+aws ssm put-parameter --name "/my/dockerhub/password" --type String --value ${DOCKERHUB_PASSWORD}
 aws ssm put-parameter --name "/cashbook/rails_master_key" --type String --value ${RAILS_MASTER_KEY}
 aws ssm put-parameter --name "/my/github/secret" --type String --value ${GITHUB_SECRET}
 aws ssm put-parameter --name "/my/github/oauth_token" --type String --value ${GITHUB_OAUTH_TOKEN}

@@ -2,8 +2,8 @@ version: 0.2
 
 env:
   parameter-store:
-    DOCKERHUB_USERNAME: /my/dockerhub_username
-    DOCKERHUB_PASSWORD: /my/dockerhub_password
+    DOCKERHUB_USERNAME: /my/dockerhub/username
+    DOCKERHUB_PASSWORD: /my/dockerhub/password
     RAILS_MASTER_KEY: /cashbook/rails_master_key
 
 phases:
