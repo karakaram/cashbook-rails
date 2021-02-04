@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "CodeBuildName",
-    "ParameterValue": "cashbook-rails-cfn"
+    "ParameterValue": "cashbook-rails"
   },
   {
     "ParameterKey": "ECRRepositoryName",
