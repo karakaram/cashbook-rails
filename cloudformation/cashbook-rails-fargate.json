@@ -1,0 +1,51 @@
+[
+  {
+    "ParameterKey": "ParentVPCStack",
+    "ParameterValue": "cashbook-vpc-3azs"
+  },
+  {
+    "ParameterKey": "ParentZoneStack",
+    "ParameterValue": "karakaram-zone-public"
+  },
+  {
+    "ParameterKey": "ParentLoadBalancerStack",
+    "ParameterValue": "my-alb"
+  },
+  {
+    "ParameterKey": "ParentClientStack1",
+    "ParameterValue": "my-client-sg"
+  },
+  {
+    "ParameterKey": "ParentDatabaseStack",
+    "ParameterValue": "my-rds-mysql"
+  },
+
+  {
+    "ParameterKey": "SubDomainNameWithDotLoadBalancer",
+    "ParameterValue": "cashbook-alb."
+  },
+  {
+    "ParameterKey": "AppImage",
+    "ParameterValue": "274682760725.dkr.ecr.ap-northeast-1.amazonaws.com/cashbook-rails:latest"
+  },
+  {
+    "ParameterKey": "AppPort",
+    "ParameterValue": "3000"
+  },
+  {
+    "ParameterKey": "RailsMasiterKey",
+    "ParameterValue": "/cashbook/rails_master_key"
+  },
+  {
+    "ParameterKey": "DBUsername",
+    "ParameterValue": "/my/db/username"
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": "/my/db/password"
+  },
+  {
+    "ParameterKey": "SubnetsReach",
+    "ParameterValue": "Public"
+  }
+]
