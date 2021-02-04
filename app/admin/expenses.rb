@@ -17,8 +17,8 @@ ActiveAdmin.register Expense do
     f.actions
   end
 
-  filter :admin_user, as: :select, collection: AdminUser.pluck(:email, :id)
-  filter :expense_type, as: :select, collection: ExpenseType.order(:order)
+  filter :admin_user, as: :select, collection: proc { AdminUser.pluck(:email, :id) }
+  filter :expense_type, as: :select, collection: proc { ExpenseType.order(:order) }
   filter :paid_on
   filter :price
   filter :name

@@ -17,8 +17,8 @@ ActiveAdmin.register Income do
     f.actions
   end
 
-  filter :admin_user, as: :select, collection: AdminUser.pluck(:email, :id)
-  filter :income_type, as: :select, collection: IncomeType.order(:order)
+  filter :admin_user, as: :select, collection: proc { AdminUser.pluck(:email, :id) }
+  filter :income_type, as: :select, collection: proc { IncomeType.order(:order) }
   filter :earned_on
   filter :price
   filter :name
