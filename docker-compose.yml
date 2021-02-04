@@ -17,6 +17,8 @@ services:
     image: mysql:8
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - db:/var/lib/mysql
 
