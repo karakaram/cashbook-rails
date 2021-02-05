@@ -5,6 +5,10 @@ Parameters:
   ParentZoneStack:
     Description: 'stack name of parent zone stack based on vpc/zone-*.yaml template.'
     Type: String
+  WAFWebACLId:
+    Description: 'Stack name of parent WAF to allow network access from limited IP addresses.'
+    Type: String
+    Default: ''
   SubDomainNameWithDotOrigin:
     Description: 'Name that is used to create the DNS entry with trailing dot, e.g. §{SubDomainNameWithDot}§{HostedZoneName}.'
     Type: String
@@ -20,6 +24,8 @@ Parameters:
   AcmCertificateARN:
     Description: 'The ACM Certificate ARN for the CloudFront distribution. Must be created in the us-east-1 region!'
     Type: String
+Conditions:
+  HasWAFWebACLId: !Not [!Equals [!Ref WAFWebACLId, '']]
 Resources:
   CloudFrontDistribution:
     Type: 'AWS::CloudFront::Distribution'
@@ -116,6 +122,7 @@ Resources:
           AcmCertificateArn: !Ref AcmCertificateARN
           SslSupportMethod: 'sni-only'
           MinimumProtocolVersion: TLSv1.2_2019
+        WebACLId: !If [HasWAFWebACLId, !Ref WAFWebACLId, !Ref 'AWS::NoValue']
   Route53RecordSet:
     Type: 'AWS::Route53::RecordSet'
     Properties:

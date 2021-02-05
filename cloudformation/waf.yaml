@@ -1,0 +1,44 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'WAFv2 template'
+Parameters:
+  IPHome:
+    Type: AWS::SSM::Parameter::Value<String>
+Resources:
+  WAFIPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Addresses:
+        - !Ref 'IPHome'
+      IPAddressVersion: IPV4
+      Name: !Sub '${AWS::StackName}-ipset'
+      Scope: CLOUDFRONT
+  WAFWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      DefaultAction:
+        Block: {}
+      Name: !Sub '${AWS::StackName}-webacl'
+      Rules:
+        - Action:
+            Allow: {}
+          Name: !Sub '${AWS::StackName}-webacl-action'
+          Priority: 0
+          Statement:
+            IPSetReferenceStatement:
+              Arn: !GetAtt WAFIPSet.Arn
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: false
+            MetricName: !Sub '${AWS::StackName}-webacl-rule'
+            SampledRequestsEnabled: false
+      Scope: CLOUDFRONT
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: false
+        MetricName: !Sub '${AWS::StackName}-webacl-rule'
+        SampledRequestsEnabled: false
+Outputs:
+  WAFWebACLId:
+    Description: 'The name of the cluster.'
+    Value: !Ref 'WAFWebACL'
+    Export:
+      Name: !Sub '${AWS::StackName}-WAFWebACLId'
