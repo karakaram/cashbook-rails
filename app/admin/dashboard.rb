@@ -18,7 +18,12 @@ ActiveAdmin.register_page "Dashboard" do
                            .group(:expense_type_id)
                            .order("expenses_price DESC") do
             column(:expense_type) { |expense| expense.expense_types_name }
-            column(:price) { |expense| expense.expenses_price }
+            column(:price) { |expense| link_to expense.expenses_price, admin_expenses_path(
+              "q[expense_type_id_eq]" => expense.expense_type_id,
+              "q[paid_on_gteq]" => Date.today.beginning_of_month,
+              "q[paid_on_lteq]" => Date.today.end_of_month,
+              commit: "Filter"
+            ) }
           end
         end
       end
@@ -31,7 +36,12 @@ ActiveAdmin.register_page "Dashboard" do
                           .group(:income_type_id)
                           .order("incomes_price DESC") do
             column(:income_type) { |income| income.income_types_name }
-            column(:price) { |income| income.incomes_price }
+            column(:price) { |income| link_to income.incomes_price, admin_incomes_path(
+              "q[income_type_id_eq]" => income.income_type_id,
+              "q[earned_on_gteq]" => Date.today.beginning_of_month,
+              "q[earned_on_lteq]" => Date.today.end_of_month,
+              commit: "Filter"
+            ) }
           end
         end
       end
@@ -46,7 +56,12 @@ ActiveAdmin.register_page "Dashboard" do
                            .group(:expense_type_id)
                            .order("expenses_price DESC") do
             column(:expense_type) { |expense| expense.expense_types_name }
-            column(:price) { |expense| expense.expenses_price }
+            column(:price) { |expense| link_to expense.expenses_price, admin_expenses_path(
+              "q[expense_type_id_eq]" => expense.expense_type_id,
+              "q[paid_on_gteq]" => Date.today.prev_month.beginning_of_month,
+              "q[paid_on_lteq]" => Date.today.prev_month.end_of_month,
+              commit: "Filter"
+            ) }
           end
         end
       end
@@ -59,7 +74,12 @@ ActiveAdmin.register_page "Dashboard" do
                           .group(:income_type_id)
                           .order("incomes_price DESC") do
             column(:income_type) { |income| income.income_types_name }
-            column(:price) { |income| income.incomes_price }
+            column(:price) { |income| link_to income.incomes_price, admin_incomes_path(
+              "q[income_type_id_eq]" => income.income_type_id,
+              "q[earned_on_gteq]" => Date.today.prev_month.beginning_of_month,
+              "q[earned_on_lteq]" => Date.today.prev_month.end_of_month,
+              commit: "Filter"
+            ) }
           end
         end
       end
