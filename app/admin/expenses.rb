@@ -2,7 +2,7 @@ ActiveAdmin.register Expense do
   permit_params :admin_user_id, :expense_type_id, :paid_on, :price, :name
 
   form do |f|
-    if params[:action] == 'new'
+    if params[:action] == "new"
       f.object.admin_user = current_admin_user
       f.object.paid_on = Date.today
     end

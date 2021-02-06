@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "This Month Expenses" do
           table_for Expense.joins(:expense_type)
-                           .select('expenses.expense_type_id, expense_types.name as expense_types_name, sum(expenses.price) as expenses_price')
+                           .select("expenses.expense_type_id, expense_types.name as expense_types_name, sum(expenses.price) as expenses_price")
                            .where(paid_on: (Date.today.beginning_of_month)..(Date.today.end_of_month))
                            .group(:expense_type_id)
                            .order("expenses_price DESC") do
@@ -24,7 +24,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "This Month Incomes" do
           table_for Income.joins(:income_type)
-                          .select('incomes.income_type_id, income_types.name as income_types_name, sum(incomes.price) as incomes_price')
+                          .select("incomes.income_type_id, income_types.name as income_types_name, sum(incomes.price) as incomes_price")
                           .where(earned_on: (Date.today.beginning_of_month)..(Date.today.end_of_month))
                           .group(:income_type_id)
                           .order("incomes_price DESC") do
@@ -44,7 +44,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Last Month Expenses" do
           table_for Expense.joins(:expense_type)
-                           .select('expenses.expense_type_id, expense_types.name as expense_types_name, sum(expenses.price) as expenses_price')
+                           .select("expenses.expense_type_id, expense_types.name as expense_types_name, sum(expenses.price) as expenses_price")
                            .where(paid_on: (Date.today.prev_month.beginning_of_month)..(Date.today.prev_month.end_of_month))
                            .group(:expense_type_id)
                            .order("expenses_price DESC") do

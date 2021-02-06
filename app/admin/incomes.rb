@@ -2,7 +2,7 @@ ActiveAdmin.register Income do
   permit_params :admin_user_id, :income_type_id, :earned_on, :price, :name
 
   form do |f|
-    if params[:action] == 'new'
+    if params[:action] == "new"
       f.object.admin_user = current_admin_user
       f.object.earned_on = Date.today
     end
