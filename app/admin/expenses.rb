@@ -4,7 +4,8 @@ ActiveAdmin.register Expense do
   form do |f|
     if params[:action] == "new"
       f.object.admin_user = current_admin_user
-      f.object.paid_on = Date.today
+      f.object.expense_type = (params.has_key?(:expense_type)) ? ExpenseType.find(params[:expense_type]) : nil
+      f.object.paid_on = (params.has_key?(:paid_on)) ? params[:paid_on] : Date.today
     end
 
     f.inputs do
@@ -40,7 +41,7 @@ ActiveAdmin.register Expense do
     def create
       super do |format|
         if @expense.errors.empty?
-          format.html { redirect_to new_admin_expense_path }
+          format.html { redirect_to new_admin_expense_path(expense_type: @expense.expense_type, paid_on: @expense.paid_on) }
         end
       end
     end
