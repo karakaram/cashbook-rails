@@ -213,6 +213,41 @@ Resources:
               'awslogs-region': !Ref 'AWS::Region'
               'awslogs-group': !Ref 'LogGroup'
               'awslogs-stream-prefix': 'app'
+  TaskDefinitionCron:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: 'cashbook-rails-cron'
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: !Ref 'TaskExecutionRole'
+      Memory: 512
+      Cpu: 256
+      ContainerDefinitions:
+        - Name: app
+          Image: !Ref 'AppImage'
+          Essential: true
+          Command:
+            - "rake"
+            - "batch:monthly"
+          Environment:
+            - Name: RAILS_ENV
+              Value: production
+            - Name: DATABASE_URL
+              Value: !Sub
+                - 'mysql2://${DBUser}:${DBPassword}@${DBHost}/cashbook?encoding=utf8mb4'
+                - DBUser: !Ref 'DBUsername'
+                  DBPassword: !Ref 'DBPassword'
+                  DBHost: {'Fn::ImportValue': !Sub '${ParentDatabaseStack}-DNSName'}
+          Secrets:
+            - Name: RAILS_MASTER_KEY
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter${RailsMasiterKey}'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              'awslogs-region': !Ref 'AWS::Region'
+              'awslogs-group': !Ref 'LogGroup'
+              'awslogs-stream-prefix': 'app-cron'
   Cluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
@@ -247,6 +282,25 @@ Resources:
             - !If [HasClientSecurityGroup1, {'Fn::ImportValue': !Sub '${ParentClientStack1}-ClientSecurityGroup'}, !Ref 'AWS::NoValue']
           Subnets: !Split [ ',', { 'Fn::ImportValue': !Sub '${ParentVPCStack}-Subnets${SubnetsReach}' } ]
       TaskDefinition: !Ref TaskDefinition
+  TaskScheduleEvents:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name: cashbook-rails-cron
+      ScheduleExpression: cron(0 * 1 * ? *)
+      State: 'ENABLED'
+      Targets:
+        - Arn: !GetAtt 'Cluster.Arn'
+          EcsParameters:
+            LaunchType: FARGATE
+            NetworkConfiguration:
+              AwsVpcConfiguration:
+                AssignPublicIp: !If [ HasSubnetsReachPublic, ENABLED, DISABLED ]
+                SecurityGroups:
+                  - !If [ HasClientSecurityGroup1, { 'Fn::ImportValue': !Sub '${ParentClientStack1}-ClientSecurityGroup' }, !Ref 'AWS::NoValue' ]
+                Subnets: !Split [ ',', { 'Fn::ImportValue': !Sub '${ParentVPCStack}-Subnets${SubnetsReach}' } ]
+            TaskDefinitionArn: !Ref TaskDefinitionCron
+          Id: cashbook-rails-cron
+          RoleArn: !Sub 'arn:aws:iam::${AWS::AccountId}:role/ecsEventsRole'
 Outputs:
   TemplateVersion:
     Description: 'template version.'
