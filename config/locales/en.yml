@@ -31,7 +31,7 @@
 
 en:
   dashboard:
-    price_type: "Price Type"
-    price_summary: "Price Summary"
+    type: "Type"
+    summary: "Summary"
     expense: "Expense"
     income: "Income"
