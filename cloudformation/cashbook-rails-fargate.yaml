@@ -256,7 +256,7 @@ Resources:
         - FARGATE_SPOT
       ClusterSettings:
         - Name: containerInsights
-          Value: enabled
+          Value: disabled
   Service:
     Type: 'AWS::ECS::Service'
     Properties:
