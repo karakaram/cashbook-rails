@@ -281,6 +281,7 @@ Resources:
             - !Ref ServiceSecurityGroup
             - !If [HasClientSecurityGroup1, {'Fn::ImportValue': !Sub '${ParentClientStack1}-ClientSecurityGroup'}, !Ref 'AWS::NoValue']
           Subnets: !Split [ ',', { 'Fn::ImportValue': !Sub '${ParentVPCStack}-Subnets${SubnetsReach}' } ]
+      PlatformVersion: '1.3.0'
       TaskDefinition: !Ref TaskDefinition
   TaskScheduleEvents:
     Type: 'AWS::Events::Rule'
