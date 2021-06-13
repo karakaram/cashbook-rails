@@ -145,6 +145,26 @@ Resources:
     Type: 'AWS::Logs::LogGroup'
     Properties:
       RetentionInDays: !Ref LogsRetentionInDays
+  TaskRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'ecs-tasks.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: SSMAccess
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ssmmessages:CreateControlChannel'
+                  - 'ssmmessages:CreateDataChannel'
+                  - 'ssmmessages:OpenControlChannel'
+                  - 'ssmmessages:OpenDataChannel'
+                Resource: '*'
   TaskExecutionRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -155,7 +175,7 @@ Resources:
               Service: 'ecs-tasks.amazonaws.com'
             Action: 'sts:AssumeRole'
       Policies:
-        - PolicyName: Inline # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html
+        - PolicyName: Inline
           PolicyDocument:
             Statement:
               - Effect: Allow
@@ -180,6 +200,7 @@ Resources:
     Type: 'AWS::ECS::TaskDefinition'
     Properties:
       Family: 'cashbook-rails'
+      TaskRoleArn: !Ref 'TaskRole'
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -207,6 +228,8 @@ Resources:
           Secrets:
             - Name: RAILS_MASTER_KEY
               ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter${RailsMasiterKey}'
+          LinuxParameters:
+            InitProcessEnabled: true
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -257,6 +280,12 @@ Resources:
       ClusterSettings:
         - Name: containerInsights
           Value: disabled
+#      Configuration:
+#        ExecuteCommandConfiguration:
+#          KmsKeyId: String
+#          LogConfiguration:
+#            ExecuteCommandLogConfiguration
+#          Logging: String
   Service:
     Type: 'AWS::ECS::Service'
     Properties:
@@ -269,6 +298,7 @@ Resources:
         MaximumPercent: 200
         MinimumHealthyPercent: 50
       DesiredCount: !Ref DesiredCount
+      EnableExecuteCommand: true
       HealthCheckGracePeriodSeconds: !Ref HealthCheckGracePeriod
       LoadBalancers:
         - ContainerName: app
